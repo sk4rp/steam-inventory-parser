@@ -1,0 +1,17 @@
+{
+    "name": "steam/parser",
+    "description": "Steam Inventory Parser",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Maxim Golev"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^7.2"
+    }
+}
