@@ -4,7 +4,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/"
-        }
+        },
+        "files": [
+            "src/Helpers/helper.php"
+        ]
     },
     "authors": [
         {
@@ -12,9 +15,10 @@
         }
     ],
     "scripts": {
-        "stan": "phpstan analyze src --memory-limit=512m",
-        "fix": "vendor/bin/php-cs-fixer fix src",
-        "all": "composer stan && composer fix"
+        "dump": "composer dump-autoload",
+        "lint": "vendor/bin/php-cs-fixer fix src",
+        "stan": "vendor/bin/phpstan analyze src --memory-limit=512m",
+        "all": "composer stan && composer lint"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
