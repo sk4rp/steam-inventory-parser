@@ -24,7 +24,7 @@
         "lint": "vendor/bin/php-cs-fixer fix src",
         "stan": "vendor/bin/phpstan analyze src --memory-limit=512m",
         "test": "vendor/bin/phpunit tests/ParseInventoryTest/ParseInventoryTest.php",
-        "all": "composer stan && composer lint"
+        "all": "composer lint && composer stan && composer test"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
