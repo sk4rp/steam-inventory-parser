@@ -22,7 +22,7 @@ $result3 = ParseInventory::getInventory('[U:1:87327540]', AppId::CS2, 2);
 // var_dump($result3);
 ```
 ## Output
-```json
+```php
 array(5) {
   ["assets"]=>
   array(9) {
