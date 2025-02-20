@@ -17,7 +17,7 @@ final readonly class ParseInventory implements ParseContract
      * @param int|string $steamId
      * @param AppId $appId
      * @param int $contextId
-     * @return array
+     * @return array<string, mixed>
      * @throws \JsonException
      */
     public static function getInventory(int|string $steamId, AppId $appId, int $contextId): array
@@ -26,7 +26,10 @@ final readonly class ParseInventory implements ParseContract
             $response = (new Client())->get(
                 sprintf('%s%s/%s/%s', self::BASE_INVENTORY_URL, convertToSteamID64($steamId), $appId->value, $contextId)
             );
-            return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR) ?? [];
+            return [
+                'success' => true,
+                'data' => json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR) ?? [],
+            ];
         } catch (GuzzleException $e) {
             return [
                 'success' => false,

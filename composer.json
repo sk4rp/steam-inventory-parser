@@ -9,6 +9,11 @@
             "src/Helpers/helper.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Maxim Golev"
@@ -18,13 +23,16 @@
         "dump": "composer dump-autoload",
         "lint": "vendor/bin/php-cs-fixer fix src",
         "stan": "vendor/bin/phpstan analyze src --memory-limit=512m",
+        "test": "vendor/bin/phpunit tests/ParseInventoryTest/ParseInventoryTest.php",
         "all": "composer stan && composer lint"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
         "symfony/var-dumper": "^7.2",
         "phpstan/phpstan": "^2.1",
-        "friendsofphp/php-cs-fixer": "^3.69"
+        "friendsofphp/php-cs-fixer": "^3.69",
+        "phpunit/phpunit": "^11.5",
+        "ext-http": "*"
     },
     "require": {
         "php": "^8.2",
