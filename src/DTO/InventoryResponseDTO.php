@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
-final readonly class InventoryResponseDTO
+use Illuminate\Contracts\Support\Arrayable;
+
+final readonly class InventoryResponseDTO implements Arrayable
 {
     /**
      * @param bool $success
@@ -18,5 +20,15 @@ final readonly class InventoryResponseDTO
         public array $descriptions  = [],
         public ?string $message = null
     ) {
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'success' => $this->success,
+            'items' => $this->items,
+            'descriptions' => $this->descriptions,
+            'message' => $this->message,
+        ];
     }
 }

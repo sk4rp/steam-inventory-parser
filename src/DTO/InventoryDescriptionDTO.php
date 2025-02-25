@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
-final readonly class InventoryDescriptionDTO
+use Illuminate\Contracts\Support\Arrayable;
+
+final readonly class InventoryDescriptionDTO implements Arrayable
 {
     public function __construct(
         public string $classId,
@@ -27,5 +29,13 @@ final readonly class InventoryDescriptionDTO
             classId: $data['classid'],
             inspectLink: $inspectLink
         );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'classId' => $this->classId,
+            'inspectLink' => $this->inspectLink,
+        ];
     }
 }
