@@ -43,7 +43,7 @@ final readonly class ParseInventory implements ParseContract
             );
             return new InventoryResponseDTO(true, $items, $descriptions);
         } catch (GuzzleException $e) {
-            return new InventoryResponseDto(false, [], [], $e->getMessage());
+            return new InventoryResponseDTO(false, [], [], $e->getMessage());
         }
     }
 
@@ -62,7 +62,7 @@ final readonly class ParseInventory implements ParseContract
             return [];
         }
 
-        return array_filter($inventory->items, static fn (InventoryItemDto $item) => $item->classId === $classId);
+        return array_filter($inventory->items, static fn (InventoryItemDTO $item) => $item->classId === $classId);
     }
 
     /**
