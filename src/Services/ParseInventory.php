@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Contracts\ParseContract;
+use App\DTO\InventoryDescriptionDTO;
+use App\DTO\InventoryItemDTO;
+use App\DTO\InventoryResponseDTO;
 use App\Enums\AppId;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -17,24 +20,30 @@ final readonly class ParseInventory implements ParseContract
      * @param int|string $steamId
      * @param AppId $appId
      * @param int $contextId
-     * @return array<string, mixed>
+     * @return InventoryResponseDTO
      * @throws \JsonException
      */
-    public static function getInventory(int|string $steamId, AppId $appId, int $contextId): array
+    public static function getInventory(int|string $steamId, AppId $appId, int $contextId): InventoryResponseDTO
     {
         try {
             $response = (new Client())->get(
                 sprintf('%s%s/%s/%s', self::BASE_INVENTORY_URL, convertToSteamID64($steamId), $appId->value, $contextId)
             );
-            return [
-                'success' => true,
-                'data' => json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR) ?? [],
-            ];
+
+            $data = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR) ?? [];
+
+            $items = array_map(
+                static fn ($item) => InventoryItemDTO::fromArray($item),
+                $data['assets'] ?? []
+            );
+
+            $descriptions = array_map(
+                static fn ($desc) => InventoryDescriptionDTO::fromArray($desc),
+                $data['descriptions'] ?? []
+            );
+            return new InventoryResponseDTO(true, $items, $descriptions);
         } catch (GuzzleException $e) {
-            return [
-                'success' => false,
-                'message' => $e->getMessage(),
-            ];
+            return new InventoryResponseDto(false, [], [], $e->getMessage());
         }
     }
 
@@ -47,20 +56,13 @@ final readonly class ParseInventory implements ParseContract
      */
     public static function getSomeItemByClassId(int|string $steamId, AppId $appId, string $classId): array
     {
-        $data = self::getInventory($steamId, $appId, 2);
+        $inventory = self::getInventory($steamId, $appId, 2);
 
-        if (! isset($data['data']['assets']) && $data['success'] === false) {
+        if (!$inventory->success) {
             return [];
         }
 
-        $result = [];
-        foreach ($data['data']['assets'] as $item) {
-            if ($item['classid'] === $classId) {
-                $result[] = $item;
-            }
-        }
-
-        return $result;
+        return array_filter($inventory->items, static fn (InventoryItemDto $item) => $item->classId === $classId);
     }
 
     /**
@@ -72,15 +74,15 @@ final readonly class ParseInventory implements ParseContract
      */
     public static function getInspectLinkForItem(int|string $steamId, AppId $appId, string $classId): ?string
     {
-        $data = self::getInventory($steamId, $appId, 2);
+        $inventory = self::getInventory($steamId, $appId, 2);
 
-        if (! isset($data['data']['descriptions']) && $data['success'] === false) {
+        if (!$inventory->success) {
             return null;
         }
 
-        foreach ($data['data']['descriptions'] as $item) {
-            if (isset($item['actions']) && $item['classid'] === $classId) {
-                return $item['actions'][0]['link'];
+        foreach ($inventory->descriptions as $description) {
+            if ($description->classId === $classId && $description->inspectLink !== null) {
+                return $description->inspectLink;
             }
         }
 

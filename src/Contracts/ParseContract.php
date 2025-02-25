@@ -2,14 +2,12 @@
 
 namespace App\Contracts;
 
+use App\DTO\InventoryResponseDTO;
 use App\Enums\AppId;
 
 interface ParseContract
 {
-    /**
-     * @return array<string, mixed>
-     */
-    public static function getInventory(int|string $steamId, AppId $appId, int $contextId): array;
+    public static function getInventory(int|string $steamId, AppId $appId, int $contextId): InventoryResponseDTO;
 
     /**
      * @return array<string, mixed>
@@ -20,4 +18,6 @@ interface ParseContract
      * @return string|null
      */
     public static function getInspectLinkForItem(int|string $steamId, AppId $appId, string $classId): ?string;
+
+
 }

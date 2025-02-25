@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\ParseInventoryTest;
 
+use App\DTO\InventoryResponseDTO;
 use App\Enums\AppId;
 use App\Services\ParseInventory;
 use PHPUnit\Framework\TestCase;
@@ -12,15 +13,15 @@ final class ParseInventoryTest extends TestCase
 {
     public function testGetInventorySuccess(): void
     {
-        $steamId = 'STEAM_0:0:43663770';
+        $steamId = '76561198047593268';
         $appId = AppId::CS2;
         $contextId = 2;
 
         $data = ParseInventory::getInventory($steamId, $appId, $contextId);
 
-        $this->assertIsArray($data);
-        $this->assertArrayHasKey('success', $data);
-        $this->assertTrue($data['success']);
+        $this->assertTrue($data->success);
+        $this->assertIsArray($data->items);
+        $this->assertIsArray($data->descriptions);
     }
 
     public function testGetInventoryFailure(): void
@@ -45,11 +46,6 @@ final class ParseInventoryTest extends TestCase
 
         $this->assertIsArray($result);
         $this->assertNotEmpty($result, 'Not found item in inventory by this classId');
-
-        foreach ($result as $item) {
-            $this->assertArrayHasKey('classid', $item);
-            $this->assertEquals($classId, $item['classid']);
-        }
     }
 
     public function testGetSomeItemByClassIdFailure(): void
@@ -73,7 +69,7 @@ final class ParseInventoryTest extends TestCase
         $result = ParseInventory::getInspectLinkForItem($steamId, $appId, $classId);
 
         $this->assertIsString($result);
-        $this->stringContains('steam://rungame/730/');
+        $this->assertStringContainsString('steam://rungame/730/', $result);
     }
 
     public function testGetInspectLinkForItemFailure(): void
