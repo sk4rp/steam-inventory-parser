@@ -12,7 +12,6 @@ use GuzzleHttp\Exception\GuzzleException;
 final readonly class ParseInventory implements ParseContract
 {
     private const BASE_INVENTORY_URL = 'https://steamcommunity.com/inventory/';
-
     /**
      * @param int|string $steamId
      * @param AppId $appId
@@ -49,7 +48,7 @@ final readonly class ParseInventory implements ParseContract
     {
         $data = self::getInventory($steamId, $appId, 2);
 
-        if (! isset($data['data']['assets']) || $data['success'] === false) {
+        if (! isset($data['data']['assets']) && $data['success'] === false) {
             return [];
         }
 
@@ -61,5 +60,30 @@ final readonly class ParseInventory implements ParseContract
         }
 
         return $result;
+    }
+
+    /**
+     * @param int|string $steamId
+     * @param AppId $appId
+     * @param string $classId
+     * @return string|null
+     * @throws \JsonException
+     */
+    public static function getInspectLinkForItem(int|string $steamId, AppId $appId, string $classId): ?string
+    {
+        $data = self::getInventory($steamId, $appId, 2);
+
+        if (! isset($data['data']['descriptions']) && $data['success'] === false) {
+            return null;
+        }
+
+        $link = null;
+        foreach ($data['data']['descriptions'] as $item) {
+            if (isset($item['actions']) && $item['classid'] === $classId) {
+                $link = $item['actions'][0]['link'];
+            }
+        }
+
+        return $link;
     }
 }

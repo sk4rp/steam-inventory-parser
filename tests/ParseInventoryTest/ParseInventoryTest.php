@@ -34,4 +34,55 @@ final class ParseInventoryTest extends TestCase
 
         ParseInventory::getInventory($steamId, $appId, $contextId);
     }
+
+    public function testGetSomeItemByClassIdSuccess(): void
+    {
+        $steamId = '76561198047593268';
+        $appId = AppId::CS2;
+        $classId = '5537026493';
+
+        $result = ParseInventory::getSomeItemByClassId($steamId, $appId, $classId);
+
+        $this->assertIsArray($result);
+        $this->assertNotEmpty($result, 'Not found item in inventory by this classId');
+
+        foreach ($result as $item) {
+            $this->assertArrayHasKey('classid', $item);
+            $this->assertEquals($classId, $item['classid']);
+        }
+    }
+
+    public function testGetSomeItemByClassIdFailure(): void
+    {
+        $steamId = '76561198047593268';
+        $appId = AppId::CS2;
+        $classId = '999999999';
+
+        $result = ParseInventory::getSomeItemByClassId($steamId, $appId, $classId);
+
+        $this->assertIsArray($result);
+        $this->assertEmpty($result, 'Should be empty array');
+    }
+
+    public function testGetInspectLinkForItemSuccess(): void
+    {
+        $steamId = '76561198047593268';
+        $appId = AppId::CS2;
+        $classId = '5537026494';
+
+        $result = ParseInventory::getInspectLinkForItem($steamId, $appId, $classId);
+
+        $this->assertIsString($result);
+        $this->stringContains('steam://rungame/730/');
+    }
+
+    public function testGetInspectLinkForItemFailure(): void
+    {
+        $steamId = '76561198047593268';
+        $appId = AppId::CS2;
+        $classId = '999999999';
+
+        $result = ParseInventory::getInspectLinkForItem($steamId, $appId, $classId);
+        $this->assertNull($result);
+    }
 }

@@ -1,7 +1,5 @@
 # Usage:
 ```php
-<?php
-
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\Enums\AppId;
@@ -9,16 +7,20 @@ use App\Services\ParseInventory;
 
 // SteamID64
 $result1 = ParseInventory::getInventory(76561198047593268, AppId::CS2, 2);
-//$result1 = ParseInventory::getSomeItemByClassId(76561198047593268, AppId::CS2, 5537026493);
+//$result1 = ParseInventory::getSomeItemByClassId(76561198047593268, AppId::CS2, "5537026493");
+//$result1 = ParseInventory::getInspectLinkForItem(76561198047593268, AppId::CS2, "5537026494");
 
 
 // SteamID2
 $result2 = ParseInventory::getInventory('STEAM_0:0:43663770', AppId::CS2, 2);
-//$result2 = ParseInventory::getSomeItemByClassId('STEAM_0:0:43663770', AppId::CS2, 5537026493);
+//$result2 = ParseInventory::getSomeItemByClassId('STEAM_0:0:43663770', AppId::CS2, "5537026493");
+//$result2 = ParseInventory::getInspectLinkForItem(76561198047593268, AppId::CS2, "5537026494");
+
 
 // SteamID3
 $result3 = ParseInventory::getInventory('[U:1:87327540]', AppId::CS2, 2);
-//$result3 = ParseInventory::getSomeItemByClassId('[U:1:87327540]', AppId::CS2, 5537026493);
+//$result3 = ParseInventory::getSomeItemByClassId('[U:1:87327540]', AppId::CS2, "5537026493");
+//$result3 = ParseInventory::getInspectLinkForItem(76561198047593268, AppId::CS2, "5537026494");
 
 
 // var_dump($result1);
@@ -297,7 +299,6 @@ The Music Kit replaces the following music:
       }
     } ...... and more
 ```
-
 ## getSomeItemByClassId
 ```php
 array(1) {
@@ -318,4 +319,9 @@ array(1) {
   }
 }
 ```
+## getInspectLinkForItem
+```php
+string(112) "steam://rungame/730/76561202255233023/+csgo_econ_action_preview%20S%owner_steamid%A%assetid%D4767876133728707846"
+```
+
 
