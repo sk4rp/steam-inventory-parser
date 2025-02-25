@@ -37,4 +37,29 @@ final readonly class ParseInventory implements ParseContract
             ];
         }
     }
+
+    /**
+     * @param int|string $steamId
+     * @param AppId $appId
+     * @param string $classId
+     * @return list<mixed>
+     * @throws \JsonException
+     */
+    public static function getSomeItemByClassId(int|string $steamId, AppId $appId, string $classId): array
+    {
+        $data = self::getInventory($steamId, $appId, 2);
+
+        if (! isset($data['data']['assets']) || $data['success'] === false) {
+            return [];
+        }
+
+        $result = [];
+        foreach ($data['data']['assets'] as $item) {
+            if ($item['classid'] === $classId) {
+                $result[] = $item;
+            }
+        }
+
+        return $result;
+    }
 }

@@ -9,19 +9,23 @@ use App\Services\ParseInventory;
 
 // SteamID64
 $result1 = ParseInventory::getInventory(76561198047593268, AppId::CS2, 2);
+//$result1 = ParseInventory::getSomeItemByClassId(76561198047593268, AppId::CS2, 5537026493);
+
 
 // SteamID2
 $result2 = ParseInventory::getInventory('STEAM_0:0:43663770', AppId::CS2, 2);
+//$result2 = ParseInventory::getSomeItemByClassId('STEAM_0:0:43663770', AppId::CS2, 5537026493);
 
 // SteamID3
 $result3 = ParseInventory::getInventory('[U:1:87327540]', AppId::CS2, 2);
+//$result3 = ParseInventory::getSomeItemByClassId('[U:1:87327540]', AppId::CS2, 5537026493);
 
 
 // var_dump($result1);
 // var_dump($result2);
 // var_dump($result3);
 ```
-## Output
+## getInventory
 ```php
 array(5) {
   ["assets"]=>
@@ -294,11 +298,24 @@ The Music Kit replaces the following music:
     } ...... and more
 ```
 
-### Availible games
+## getSomeItemByClassId
 ```php
-case CS2 = 730;
-case DOTA2 = 570;
-case RUST = 252490;
-case TF2 = 440;
+array(1) {
+  [0]=>
+  array(6) {
+    ["appid"]=>
+    int(730)
+    ["contextid"]=>
+    string(1) "2"
+    ["assetid"]=>
+    string(11) "37872844887"
+    ["classid"]=>
+    string(10) "5537026493"
+    ["instanceid"]=>
+    string(1) "0"
+    ["amount"]=>
+    string(1) "1"
+  }
+}
 ```
 
