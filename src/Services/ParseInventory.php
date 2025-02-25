@@ -49,7 +49,7 @@ final readonly class ParseInventory implements ParseContract
     {
         $data = self::getInventory($steamId, $appId, 2);
 
-        if (!isset($data['data']['assets']) && $data['success'] === false) {
+        if (! isset($data['data']['assets']) && $data['success'] === false) {
             return [];
         }
 
@@ -74,17 +74,16 @@ final readonly class ParseInventory implements ParseContract
     {
         $data = self::getInventory($steamId, $appId, 2);
 
-        if (!isset($data['data']['descriptions']) && $data['success'] === false) {
+        if (! isset($data['data']['descriptions']) && $data['success'] === false) {
             return null;
         }
 
-        $link = null;
         foreach ($data['data']['descriptions'] as $item) {
             if (isset($item['actions']) && $item['classid'] === $classId) {
-                $link = $item['actions'][0]['link'];
+                return $item['actions'][0]['link'];
             }
         }
 
-        return $link;
+        return null;
     }
 }
