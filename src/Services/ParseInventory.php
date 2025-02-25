@@ -12,6 +12,7 @@ use GuzzleHttp\Exception\GuzzleException;
 final readonly class ParseInventory implements ParseContract
 {
     private const BASE_INVENTORY_URL = 'https://steamcommunity.com/inventory/';
+
     /**
      * @param int|string $steamId
      * @param AppId $appId
@@ -48,7 +49,7 @@ final readonly class ParseInventory implements ParseContract
     {
         $data = self::getInventory($steamId, $appId, 2);
 
-        if (! isset($data['data']['assets']) && $data['success'] === false) {
+        if (!isset($data['data']['assets']) && $data['success'] === false) {
             return [];
         }
 
@@ -73,7 +74,7 @@ final readonly class ParseInventory implements ParseContract
     {
         $data = self::getInventory($steamId, $appId, 2);
 
-        if (! isset($data['data']['descriptions']) && $data['success'] === false) {
+        if (!isset($data['data']['descriptions']) && $data['success'] === false) {
             return null;
         }
 
