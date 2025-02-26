@@ -6,8 +6,18 @@ namespace App\DTO;
 
 use Illuminate\Contracts\Support\Arrayable;
 
+/**
+ * @implements Arrayable<string, int|string|null>
+ */
 final readonly class InventoryTagsDTO implements Arrayable
 {
+    /**
+     * @param string|null $category
+     * @param string|null $internal_name
+     * @param string|null $localized_category_name
+     * @param string|null $localized_tag_name
+     * @param string|null $color
+     */
     public function __construct(
         public ?string $category,
         public ?string $internal_name,
@@ -16,6 +26,10 @@ final readonly class InventoryTagsDTO implements Arrayable
         public ?string $color,
     ) {
     }
+
+    /**
+     * @param array<mixed> $data
+     */
     public static function fromArray(array $data): self
     {
         return new self(
@@ -27,6 +41,9 @@ final readonly class InventoryTagsDTO implements Arrayable
         );
     }
 
+    /**
+     * @return array<string, string|null>
+     */
     public function toArray(): array
     {
         return [

@@ -6,12 +6,16 @@ namespace App\DTO;
 
 use Illuminate\Contracts\Support\Arrayable;
 
+/**
+ * @implements Arrayable<string, bool|string|null|array<mixed>>
+ */
 final readonly class InventoryResponseDTO implements Arrayable
 {
     /**
      * @param bool $success
      * @param array<mixed> $items
      * @param array<mixed> $descriptions
+     * @param array<mixed> $tags
      * @param string|null $message
      */
     public function __construct(
@@ -23,6 +27,9 @@ final readonly class InventoryResponseDTO implements Arrayable
     ) {
     }
 
+    /**
+     * @return array<string, bool|string|null|array<mixed>>
+     */
     public function toArray(): array
     {
         return [

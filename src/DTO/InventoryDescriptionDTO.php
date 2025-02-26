@@ -6,6 +6,9 @@ namespace App\DTO;
 
 use Illuminate\Contracts\Support\Arrayable;
 
+/**
+ * @implements Arrayable<string, int|string|null>
+ */
 final readonly class InventoryDescriptionDTO implements Arrayable
 {
     public function __construct(

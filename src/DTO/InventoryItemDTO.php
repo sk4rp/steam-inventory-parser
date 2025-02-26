@@ -6,6 +6,9 @@ namespace App\DTO;
 
 use Illuminate\Contracts\Support\Arrayable;
 
+/**
+ * @implements Arrayable<string, int|string|null>
+ */
 final readonly class InventoryItemDTO implements Arrayable
 {
     public function __construct(
@@ -29,6 +32,9 @@ final readonly class InventoryItemDTO implements Arrayable
         );
     }
 
+    /**
+     * @return array<string, string|null>
+     */
     public function toArray(): array
     {
         return [

@@ -27,26 +27,38 @@ if (!function_exists('convertToSteamID64')) {
 }
 
 if (!function_exists('parseItems')) {
+    /**
+     * @param array<mixed> $data
+     * @return InventoryItemDTO[]
+     */
     function parseItems(array $data): array
     {
         return array_map(
-            static fn($item) => InventoryItemDTO::fromArray($item),
+            static fn ($item) => InventoryItemDTO::fromArray($item),
             $data['assets'] ?? []
         );
     }
 }
 
 if (!function_exists('parseDescriptions')) {
+    /**
+     * @param array<mixed> $data
+     * @return InventoryDescriptionDTO[]
+     */
     function parseDescriptions(array $data): array
     {
         return array_map(
-            static fn($desc) => InventoryDescriptionDTO::fromArray($desc),
+            static fn ($desc) => InventoryDescriptionDTO::fromArray($desc),
             $data['descriptions'] ?? []
         );
     }
 }
 
 if (!function_exists('parseTags')) {
+    /**
+     * @param array<mixed> $data
+     * @return InventoryTagsDTO[]
+     */
     function parseTags(array $data): array
     {
         $tags = [];
