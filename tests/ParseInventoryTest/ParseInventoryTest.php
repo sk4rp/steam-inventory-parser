@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\ParseInventoryTest;
 
-use App\DTO\InventoryResponseDTO;
 use App\Enums\AppId;
 use App\Services\ParseInventory;
 use PHPUnit\Framework\TestCase;

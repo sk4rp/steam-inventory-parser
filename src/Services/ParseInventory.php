@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Contracts\ParseContract;
-use App\DTO\InventoryDescriptionDTO;
 use App\DTO\InventoryItemDTO;
 use App\DTO\InventoryResponseDTO;
-use App\DTO\InventoryTagsDTO;
 use App\Enums\AppId;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;

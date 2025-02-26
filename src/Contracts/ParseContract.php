@@ -7,6 +7,9 @@ use App\Enums\AppId;
 
 interface ParseContract
 {
+    /**
+     * @return InventoryResponseDTO
+     */
     public static function getInventory(int|string $steamId, AppId $appId, int $contextId): InventoryResponseDTO;
 
     /**
@@ -18,6 +21,4 @@ interface ParseContract
      * @return string|null
      */
     public static function getInspectLinkForItem(int|string $steamId, AppId $appId, string $classId): ?string;
-
-
 }
