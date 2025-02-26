@@ -11,7 +11,8 @@ final readonly class InventoryItemDTO implements Arrayable
     public function __construct(
         public string $classId,
         public string $instanceId,
-        public string $assetId
+        public string $assetId,
+        public string $amount,
     ) {
     }
 
@@ -23,7 +24,8 @@ final readonly class InventoryItemDTO implements Arrayable
         return new self(
             classId: $data['classid'],
             instanceId: $data['instanceid'],
-            assetId: $data['assetid']
+            assetId: $data['assetid'],
+            amount: $data['amount']
         );
     }
 
@@ -32,7 +34,8 @@ final readonly class InventoryItemDTO implements Arrayable
         return [
             'classId' => $this->classId,
             'instanceId' => $this->instanceId,
-            'assetId' => $this->assetId
+            'assetId' => $this->assetId,
+            'amount' => $this->amount,
         ];
     }
 }

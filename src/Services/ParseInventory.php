@@ -8,6 +8,7 @@ use App\Contracts\ParseContract;
 use App\DTO\InventoryDescriptionDTO;
 use App\DTO\InventoryItemDTO;
 use App\DTO\InventoryResponseDTO;
+use App\DTO\InventoryTagsDTO;
 use App\Enums\AppId;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -29,21 +30,11 @@ final readonly class ParseInventory implements ParseContract
             $response = (new Client())->get(
                 sprintf('%s%s/%s/%s', self::BASE_INVENTORY_URL, convertToSteamID64($steamId), $appId->value, $contextId)
             );
-
             $data = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR) ?? [];
 
-            $items = array_map(
-                static fn ($item) => InventoryItemDTO::fromArray($item),
-                $data['assets'] ?? []
-            );
-
-            $descriptions = array_map(
-                static fn ($desc) => InventoryDescriptionDTO::fromArray($desc),
-                $data['descriptions'] ?? []
-            );
-            return new InventoryResponseDTO(true, $items, $descriptions);
+            return new InventoryResponseDTO(true, parseItems($data), parseDescriptions($data), parseTags($data));
         } catch (GuzzleException $e) {
-            return new InventoryResponseDTO(false, [], [], $e->getMessage());
+            return new InventoryResponseDTO(false, [], [], [], $e->getMessage());
         }
     }
 

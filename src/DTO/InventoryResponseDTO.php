@@ -18,6 +18,7 @@ final readonly class InventoryResponseDTO implements Arrayable
         public bool $success,
         public array $items = [],
         public array $descriptions  = [],
+        public array $tags = [],
         public ?string $message = null
     ) {
     }
@@ -28,6 +29,7 @@ final readonly class InventoryResponseDTO implements Arrayable
             'success' => $this->success,
             'items' => $this->items,
             'descriptions' => $this->descriptions,
+            'tags' => $this->tags,
             'message' => $this->message,
         ];
     }
