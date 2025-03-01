@@ -13,7 +13,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 final readonly class ParseInventory implements ParseContract
 {
-    private const BASE_INVENTORY_URL = 'https://steamcommunity.com/inventory/';
+    private const BASE_INVENTORY_URL = 'https://steamcommunity.com/inventory';
 
     /**
      * @param int|string $steamId
@@ -26,7 +26,7 @@ final readonly class ParseInventory implements ParseContract
     {
         try {
             $response = (new Client())->get(
-                sprintf('%s%s/%s/%s', self::BASE_INVENTORY_URL, convertToSteamID64($steamId), $appId->value, $contextId)
+                sprintf('%s/%s/%s/%s', self::BASE_INVENTORY_URL, convertToSteamID64($steamId), $appId->value, $contextId)
             );
             $data = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR) ?? [];
 
